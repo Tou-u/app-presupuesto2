@@ -1,0 +1,43 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "id": "d4fd5973-8e83-45ab-a820-68b7ae97ac20",
+  "prevId": "e4e69648-5138-44e2-a4e7-f039bd5a2a82",
+  "tables": {
+    "budget": {
+      "name": "budget",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
