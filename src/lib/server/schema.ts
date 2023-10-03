@@ -1,7 +1,7 @@
-import { integer, pgTable, serial, text } from 'drizzle-orm/pg-core';
+import { mysqlTable, text, serial, int } from 'drizzle-orm/mysql-core';
 
-export const budget = pgTable('budget', {
+export const budget = mysqlTable('budget', {
 	id: serial('id').primaryKey(),
 	name: text('name').notNull(),
-	amount: integer('amount')
+	amount: int('amount')
 });

@@ -5,9 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@planetscale/database':
+    specifier: ^1.11.0
+    version: 1.11.0
   drizzle-orm:
     specifier: ^0.28.6
-    version: 0.28.6(@aws-sdk/client-rds-data@3.421.0)(kysely@0.25.0)(pg@8.11.3)(postgres@3.3.5)
+    version: 0.28.6(@aws-sdk/client-rds-data@3.421.0)(@planetscale/database@1.11.0)(kysely@0.25.0)(pg@8.11.3)(postgres@3.3.5)
   postgres:
     specifier: ^3.3.5
     version: 3.3.5
@@ -2172,6 +2175,11 @@ packages:
       webcrypto-core: 1.7.7
     dev: true
 
+  /@planetscale/database@1.11.0:
+    resolution: {integrity: sha512-aWbU+D/IRHoDE9975y+Q4c+EwwAWxCPwFId+N1AhQVFXzbeJMkj6KN2iQtoi03elcLMRdfT+V3i9Z4WRw+/oIA==}
+    engines: {node: '>=16'}
+    dev: false
+
   /@polka/url@1.0.0-next.23:
     resolution: {integrity: sha512-C16M+IYz0rgRhWZdCmK+h58JMv8vijAA61gmz2rspCSwKwzBebpdcsiUmwrtJRdphuY30i6BSLEOP8ppbNLyLg==}
     dev: true
@@ -3946,7 +3954,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.28.6(@aws-sdk/client-rds-data@3.421.0)(kysely@0.25.0)(pg@8.11.3)(postgres@3.3.5):
+  /drizzle-orm@0.28.6(@aws-sdk/client-rds-data@3.421.0)(@planetscale/database@1.11.0)(kysely@0.25.0)(pg@8.11.3)(postgres@3.3.5):
     resolution: {integrity: sha512-yBe+F9htrlYER7uXgDJUQsTHFoIrI5yMm5A0bg0GiZ/kY5jNXTWoEy4KQtg35cE27sw1VbgzoMWHAgCckUUUww==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -4009,6 +4017,7 @@ packages:
         optional: true
     dependencies:
       '@aws-sdk/client-rds-data': 3.421.0
+      '@planetscale/database': 1.11.0
       kysely: 0.25.0
       pg: 8.11.3
       postgres: 3.3.5

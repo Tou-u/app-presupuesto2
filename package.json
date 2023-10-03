@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "sst bind vite dev",
+		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -12,8 +12,8 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"sst:deploy": "sst deploy",
 		"sst:dev": "sst dev",
-		"generate": "drizzle-kit generate:pg",
-		"push": "drizzle-kit push:pg",
+		"generate": "drizzle-kit generate:mysql",
+		"push": "drizzle-kit push:mysql",
 		"studio": "drizzle-kit studio"
 	},
 	"devDependencies": {
@@ -41,6 +41,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@planetscale/database": "^1.11.0",
 		"drizzle-orm": "^0.28.6",
 		"postgres": "^3.3.5"
 	}
