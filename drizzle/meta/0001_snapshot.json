@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "4f5971e5-7c50-4c30-9fc8-f81f23c50675",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "d2ceaeb6-da07-4cf4-af60-3406b06e4ec9",
+  "prevId": "4f5971e5-7c50-4c30-9fc8-f81f23c50675",
   "tables": {
     "budgets": {
       "name": "budgets",
@@ -79,17 +79,7 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "expenses_budget_id_budgets_id_fk": {
-          "name": "expenses_budget_id_budgets_id_fk",
-          "tableFrom": "expenses",
-          "tableTo": "budgets",
-          "columnsFrom": ["budget_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "expenses_id": {
           "name": "expenses_id",

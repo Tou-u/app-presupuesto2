@@ -1,12 +1,19 @@
 {
   "version": "5",
-  "dialect": "pg",
+  "dialect": "mysql",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1696374397051,
-      "tag": "0000_wise_ironclad",
+      "when": 1696550322006,
+      "tag": "0000_new_bastion",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1696550514353,
+      "tag": "0001_absurd_wiccan",
       "breakpoints": true
     }
   ]
