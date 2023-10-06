@@ -1,18 +1,21 @@
 import { relations } from 'drizzle-orm'
-import { mysqlTable, text, serial, int } from 'drizzle-orm/mysql-core'
+import { pgTable, text, serial, integer, timestamp } from 'drizzle-orm/pg-core'
 
-export const budgets = mysqlTable('budgets', {
+export const budgets = pgTable('budgets', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
-  amount: int('amount')
+  amount: integer('amount'),
+  created_at: timestamp('created_at').defaultNow()
 })
 
-export const expenses = mysqlTable('expenses', {
+export const expenses = pgTable('expenses', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
-  amount: int('amount').notNull(),
+  amount: integer('amount').notNull(),
   category: text('category'),
-  budgetId: int('budget_id')
+  budgetId: integer('budget_id')
+    .notNull()
+    .references(() => budgets.id, { onDelete: 'cascade' })
 })
 
 export const budgetRelations = relations(budgets, ({ many }) => ({

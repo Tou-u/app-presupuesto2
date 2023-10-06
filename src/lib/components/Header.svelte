@@ -7,7 +7,7 @@
   }
 </script>
 
-<div class="flex items-center h-10 p-2">
+<div class="flex items-center h-16 p-2 border-b-[1px]">
   <strong class="flex-1 text-xl uppercase">App Presupuesto</strong>
   <button on:click={drawerOpen} class="lg:hidden btn btn-sm">
     <span>
