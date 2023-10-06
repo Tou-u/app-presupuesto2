@@ -1,17 +1,18 @@
 <script lang="ts">
   import { applyAction, deserialize } from '$app/forms'
   import { invalidateAll } from '$app/navigation'
-  import { RadioGroup, RadioItem, getModalStore } from '@skeletonlabs/skeleton'
+  import { getModalStore } from '@skeletonlabs/skeleton'
   import CurrencyInput from '@canutin/svelte-currency-input'
   const modalStore = getModalStore()
 
   export let parent: any
   let message: string = ''
-  let option: number = 0
 
   async function onFormSubmit(event: { currentTarget: HTMLFormElement }) {
     const data = new FormData(event.currentTarget)
+    data.append('budgetId', $modalStore[0].meta.budgetId)
 
+    // loading = true
     const response = await fetch(event.currentTarget.action, {
       method: 'POST',
       body: data
@@ -36,25 +37,24 @@
   <div class="modal-example-form {cBase}">
     <header class={cHeader}>{$modalStore[0].title}</header>
     <form
-      id="form"
+      id="expenseform"
       class="modal-form {cForm}"
       method="POST"
-      action="?/newBudget"
+      action="?/newExpense"
       on:submit|preventDefault={onFormSubmit}>
-      <div class="flex flex-col gap-1">
-        <span>¿Cuentas con una cantidad estimada?</span>
-        <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-          <RadioItem bind:group={option} name="option" value={0}>No</RadioItem>
-          <RadioItem bind:group={option} name="option" value={1}>Sí</RadioItem>
-        </RadioGroup>
-      </div>
-      {#if option === 1}
+      <label class="label">
+        <span>Asigna un nombre al gasto</span>
+        <input class="input" type="text" name="expense_name" placeholder="Ingresa el nombre" />
+      </label>
+      <!-- svelte-ignore a11y-label-has-associated-control -->
+      <label class="label">
+        <span>Ingresa el gasto</span>
         <div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
           <div class="input-group-shim">
             <p>CLP</p>
           </div>
           <CurrencyInput
-            name="budget_amount"
+            name="expense_amount"
             locale="es-CL"
             currency="CLP"
             inputClasses={{ formatted: 'border-none w-full -ml-4' }}
@@ -62,11 +62,6 @@
             placeholder={0}
             fractionDigits={0} />
         </div>
-      {/if}
-
-      <label class="label">
-        <span>Asigna un nombre al presupuesto</span>
-        <input class="input" type="text" name="budget_name" placeholder="Ingresa el nombre" />
       </label>
     </form>
     <div class="flex flex-col items-center gap-2">
@@ -76,8 +71,8 @@
       <footer class="modal-footer {parent.regionFooter}">
         <button class="btn {parent.buttonNeutral}" on:click={parent.onClose} type="button"
           >Cancelar</button>
-        <button class="btn {parent.buttonPositive}" type="submit" form="form"
-          >Crear Presupuesto</button>
+        <button class="btn {parent.buttonPositive}" type="submit" form="expenseform"
+          >Crear Gasto</button>
       </footer>
     </div>
   </div>

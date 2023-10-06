@@ -1,66 +1,89 @@
 <script lang="ts">
   import Add from '$lib/icons/Add.svelte'
-  import { applyAction, deserialize } from '$app/forms'
-  import { invalidateAll } from '$app/navigation'
-  import type { PageData } from './$types'
+  import type { ActionData, PageData } from './$types'
   import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton'
   const modalStore = getModalStore()
 
   export let data: PageData
+  export let form: ActionData
+  $: ({ budget } = data)
 
-  let loading = false
+  $: if (form?.success) {
+    modalStore.close()
+  }
 
-  const modal: ModalSettings = {
+  $: gastos = () => {
+    return budget?.expense
+      .map((e) => e.amount)
+      .reduce((acc, value) => {
+        return acc + value
+      }, 0)
+  }
+
+  $: newExpense = {
+    type: 'component',
+    component: 'modalNewExpense',
+    title: 'Nuevo Gasto',
+    meta: {
+      budgetId: data.budget?.id
+    }
+  } satisfies ModalSettings
+
+  const newBudget: ModalSettings = {
     type: 'component',
     component: 'modalNewBudget',
     title: 'Nuevo Presupuesto'
   }
 
-  const openModal = () => {
-    modalStore.trigger(modal)
+  const openBudgetModal = () => {
+    modalStore.trigger(newBudget)
   }
 
-  async function handleSubmit(event: { currentTarget: HTMLFormElement }) {
-    const data = new FormData(event.currentTarget)
-
-    loading = true
-    const response = await fetch(event.currentTarget.action, {
-      method: 'POST',
-      body: data
-    })
-
-    const result = deserialize(await response.text())
-
-    if (result.type === 'success') {
-      // rerun all `load` functions, following the successful update
-      loading = false
-      await invalidateAll()
-    }
-    applyAction(result)
+  const openExpenseModal = () => {
+    modalStore.trigger(newExpense)
   }
 
-  const removeBudget = async (id: number | undefined, event: Event) => {
-    const target = event.target as HTMLInputElement
-    loading = true
+  // async function handleSubmit(event: { currentTarget: HTMLFormElement }) {
+  //   const data = new FormData(event.currentTarget)
 
-    const response = await fetch(target.formAction, {
-      method: 'POST',
-      body: JSON.stringify(id)
-    })
+  //   loading = true
+  //   const response = await fetch(event.currentTarget.action, {
+  //     method: 'POST',
+  //     body: data
+  //   })
 
-    const result = deserialize(await response.text())
+  //   const result = deserialize(await response.text())
 
-    if (result.type === 'success') {
-      // rerun all `load` functions, following the successful update
-      loading = false
-      await invalidateAll()
-    }
+  //   if (result.type === 'success') {
+  //     // rerun all `load` functions, following the successful update
+  //     loading = false
+  //     await invalidateAll()
+  //   }
+  //   applyAction(result)
+  // }
 
-    applyAction(result)
-  }
+  // const removeBudget = async (id: number | undefined, event: Event) => {
+  //   const target = event.target as HTMLInputElement
+  //   loading = true
+
+  //   const response = await fetch(target.formAction, {
+  //     method: 'POST',
+  //     body: JSON.stringify(id)
+  //   })
+
+  //   const result = deserialize(await response.text())
+
+  //   if (result.type === 'success') {
+  //     // rerun all `load` functions, following the successful update
+  //     loading = false
+  //     await invalidateAll()
+  //   }
+
+  //   applyAction(result)
+  // }
 </script>
 
-{#if !data.budget}
+{#if !budget}
   <container class="flex flex-col items-center h-full justify-center gap-5">
     <p class="h1 text-center">
       <span
@@ -68,14 +91,25 @@
         >Es hora de crear tú primer presupuesto</span>
     </p>
 
-    <button type="button" class="btn variant-filled-tertiary" on:click={openModal}>
+    <button type="button" class="btn variant-filled-tertiary" on:click={openBudgetModal}>
       <span><Add /></span>
       <span>Nuevo presupuesto</span>
     </button>
   </container>
 {:else}
-  <button class="btn variant-filled-primary" on:click={openModal}>Nuevo presupuesto</button>
-  <strong>{JSON.stringify(data.budget)}</strong>
+  <container>
+    <h1>{budget.name}</h1>
+    <p>{budget.amount}</p>
+    {#if budget.expense.length > 0}
+      {gastos()}
+      {#each budget.expense as expense}
+        <p>{expense.name}</p>
+        <p>{expense.amount}</p>
+      {/each}
+    {/if}
+  </container>
+  <button class="btn variant-filled-primary" on:click={openBudgetModal}>Nuevo presupuesto</button>
+  <button class="btn variant-filled-primary" on:click={openExpenseModal}>Nuevo Gasto</button>
 {/if}
 
 <!-- <div style="display: flex; gap: 5px; align-items: center;" class="p-2">

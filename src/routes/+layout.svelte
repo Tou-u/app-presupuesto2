@@ -8,10 +8,15 @@
   initializeStores()
 
   import NewBudget from '$lib/modals/NewBudget.svelte'
+  import NewExpense from '$lib/modals/NewExpense.svelte'
 
   const modalComponentRegistry: Record<string, ModalComponent> = {
     modalNewBudget: {
       ref: NewBudget,
+      slot: '<p>Skeleton</p>'
+    },
+    modalNewExpense: {
+      ref: NewExpense,
       slot: '<p>Skeleton</p>'
     }
   }
