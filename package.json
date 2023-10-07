@@ -49,7 +49,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@canutin/svelte-currency-input": "^0.10.0",
     "@planetscale/database": "^1.11.0",
     "drizzle-orm": "^0.28.6",
     "postgres": "^3.3.5"

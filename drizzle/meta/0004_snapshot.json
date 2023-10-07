@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "9bc2c06e-5ebe-441f-8358-df3855ab3290",
-  "prevId": "99e7544e-00d4-4046-8539-7b8b0b2b64f4",
+  "id": "6258bac5-32a0-42ef-9989-85ae9b94f560",
+  "prevId": "691e8db8-03d4-4292-b6d0-9fb4cbed8890",
   "tables": {
     "budgets": {
       "name": "budgets",
@@ -25,6 +25,13 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},

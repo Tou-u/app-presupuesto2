@@ -1,0 +1,1 @@
+ALTER TABLE "budgets" ALTER COLUMN "created_at" SET NOT NULL;

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import BudgetInfo from '$lib/components/BudgetInfo.svelte'
+  import CurrencyInput from '$lib/components/CurrencyInput.svelte'
   import Add from '$lib/icons/Add.svelte'
   import type { ActionData, PageData } from './$types'
   import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton'
@@ -20,27 +22,25 @@
       }, 0)
   }
 
-  $: newExpense = {
-    type: 'component',
-    component: 'modalNewExpense',
-    title: 'Nuevo Gasto',
-    meta: {
-      budgetId: data.budget?.id
+  $: openExpenseModal = () => {
+    const newExpense: ModalSettings = {
+      type: 'component',
+      component: 'modalNewExpense',
+      title: 'Nuevo Gasto',
+      meta: {
+        budgetId: data.budget?.id
+      }
     }
-  } satisfies ModalSettings
-
-  const newBudget: ModalSettings = {
-    type: 'component',
-    component: 'modalNewBudget',
-    title: 'Nuevo Presupuesto'
+    modalStore.trigger(newExpense)
   }
 
   const openBudgetModal = () => {
+    const newBudget: ModalSettings = {
+      type: 'component',
+      component: 'modalNewBudget',
+      title: 'Nuevo Presupuesto'
+    }
     modalStore.trigger(newBudget)
-  }
-
-  const openExpenseModal = () => {
-    modalStore.trigger(newExpense)
   }
 
   // async function handleSubmit(event: { currentTarget: HTMLFormElement }) {
@@ -97,17 +97,7 @@
     </button>
   </container>
 {:else}
-  <container>
-    <h1>{budget.name}</h1>
-    <p>{budget.amount}</p>
-    {#if budget.expense.length > 0}
-      {gastos()}
-      {#each budget.expense as expense}
-        <p>{expense.name}</p>
-        <p>{expense.amount}</p>
-      {/each}
-    {/if}
-  </container>
+  <BudgetInfo {budget} />
   <button class="btn variant-filled-primary" on:click={openBudgetModal}>Nuevo presupuesto</button>
   <button class="btn variant-filled-primary" on:click={openExpenseModal}>Nuevo Gasto</button>
 {/if}

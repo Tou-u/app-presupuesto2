@@ -2,7 +2,7 @@
   import { applyAction, deserialize } from '$app/forms'
   import { invalidateAll } from '$app/navigation'
   import { RadioGroup, RadioItem, getModalStore } from '@skeletonlabs/skeleton'
-  import CurrencyInput from '@canutin/svelte-currency-input'
+  import CurrencyInput from '$lib/components/CurrencyInput.svelte'
   const modalStore = getModalStore()
 
   export let parent: any
@@ -51,22 +51,20 @@
       {#if option === 1}
         <div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
           <div class="input-group-shim">
-            <p>CLP</p>
+            <p>CLP $</p>
           </div>
-          <CurrencyInput
-            name="budget_amount"
-            locale="es-CL"
-            currency="CLP"
-            inputClasses={{ formatted: 'border-none w-full -ml-4' }}
-            isNegativeAllowed={false}
-            placeholder={0}
-            fractionDigits={0} />
+          <CurrencyInput name="budget_amount" />
         </div>
       {/if}
 
       <label class="label">
         <span>Asigna un nombre al presupuesto</span>
-        <input class="input" type="text" name="budget_name" placeholder="Ingresa el nombre" />
+        <input
+          class="input"
+          type="text"
+          name="budget_name"
+          placeholder="Ingresa el nombre"
+          autocomplete="off" />
       </label>
     </form>
     <div class="flex flex-col items-center gap-2">

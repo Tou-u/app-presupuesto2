@@ -5,7 +5,7 @@ export const budgets = pgTable('budgets', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   amount: integer('amount'),
-  created_at: timestamp('created_at').defaultNow()
+  created_at: timestamp('created_at').defaultNow().notNull()
 })
 
 export const expenses = pgTable('expenses', {

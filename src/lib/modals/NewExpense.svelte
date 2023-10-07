@@ -2,7 +2,7 @@
   import { applyAction, deserialize } from '$app/forms'
   import { invalidateAll } from '$app/navigation'
   import { getModalStore } from '@skeletonlabs/skeleton'
-  import CurrencyInput from '@canutin/svelte-currency-input'
+  import CurrencyInput from '$lib/components/CurrencyInput.svelte'
   const modalStore = getModalStore()
 
   export let parent: any
@@ -44,23 +44,21 @@
       on:submit|preventDefault={onFormSubmit}>
       <label class="label">
         <span>Asigna un nombre al gasto</span>
-        <input class="input" type="text" name="expense_name" placeholder="Ingresa el nombre" />
+        <input
+          class="input"
+          type="text"
+          name="expense_name"
+          placeholder="Ingresa el nombre"
+          autocomplete="off" />
       </label>
       <!-- svelte-ignore a11y-label-has-associated-control -->
       <label class="label">
         <span>Ingresa el gasto</span>
         <div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
           <div class="input-group-shim">
-            <p>CLP</p>
+            <p>CLP $</p>
           </div>
-          <CurrencyInput
-            name="expense_amount"
-            locale="es-CL"
-            currency="CLP"
-            inputClasses={{ formatted: 'border-none w-full -ml-4' }}
-            isNegativeAllowed={false}
-            placeholder={0}
-            fractionDigits={0} />
+          <CurrencyInput name="expense_amount" />
         </div>
       </label>
     </form>
