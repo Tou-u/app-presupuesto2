@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@canutin/svelte-currency-input':
-    specifier: ^0.10.0
-    version: 0.10.0
   '@planetscale/database':
     specifier: ^1.11.0
     version: 1.11.0
@@ -1536,10 +1533,6 @@ packages:
   /@balena/dockerignore@1.0.2:
     resolution: {integrity: sha512-wMue2Sy4GAVTk6Ic4tJVcnfdau+gx2EnG7S+uAEe+TWJFqE4YoWN4/H8MSLj4eYJKxGg26lZwboEniNiNwZQ6Q==}
     dev: true
-
-  /@canutin/svelte-currency-input@0.10.0:
-    resolution: {integrity: sha512-DWvci/erxacfuJmscP/Z5c/r312bv37N3+OMuhX2B/eCMUnponoD+3uzVLSFMWsE9y2xpoIPl2cealwu/e8EFA==}
-    dev: false
 
   /@drizzle-team/studio@0.0.5:
     resolution: {integrity: sha512-ps5qF0tMxWRVu+V5gvCRrQNqlY92aTnIKdq27gm9LZMSdaKYZt6AVvSK1dlUMzs6Rt0Jm80b+eWct6xShBKhIw==}

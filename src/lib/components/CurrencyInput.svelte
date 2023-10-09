@@ -10,13 +10,9 @@
       value = numericValue
       event.target.value = new Intl.NumberFormat('es-CL', { currency: 'CLP' }).format(numericValue)
     } else {
-      event.target.value = '0'
+      event.target.value = ''
     }
   }
 </script>
 
-<input
-  {name}
-  type="text"
-  on:input={updateValue}
-  value={new Intl.NumberFormat('es-CL', { currency: 'CLP' }).format(value)} />
+<input {name} type="text" on:input={updateValue} placeholder="Ingresa el costo" />
