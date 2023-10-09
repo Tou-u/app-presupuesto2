@@ -61,7 +61,9 @@
             {!expense.category ? 'Sin Categoría' : expense.category}
           </span>
         </header>
-        <section class="px-4 line-clamp-2 flex-1 capitalize">{expense.name}</section>
+        <section class="px-4 line-clamp-2 flex-1 capitalize">
+          <p>{expense.name}</p>
+        </section>
         <footer class="card-footer text-xl flex justify-center items-center">
           <p class="m-auto">{formatAmount(expense.amount)}</p>
           <button
@@ -80,6 +82,6 @@
 
 <style>
   .info {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 </style>
