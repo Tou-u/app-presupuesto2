@@ -29,12 +29,12 @@
     <Header />
   </svelte:fragment>
   <svelte:fragment slot="sidebarRight">
-    <div class="hidden lg:block w-56">
+    <div class="hidden w-56 lg:block">
       <Navigation />
     </div>
   </svelte:fragment>
   <slot />
   <svelte:fragment slot="footer">
-    <p class="text-center p-2">Dev by Tou ❤️</p>
+    <p class="p-2 text-center">Dev by Tou ❤️</p>
   </svelte:fragment>
 </AppShell>

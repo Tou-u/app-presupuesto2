@@ -53,18 +53,18 @@
     <p>Presupuesto de {formatAmount(budget.amount)}</p>
   {/if}
   <p>Gastado un total de {formatAmount(gastos)}</p>
-  <div class="grid info gap-2">
+  <div class="info grid gap-2">
     {#each budget.expense as expense}
-      <div class="card flex flex-col h-[140px]">
+      <div class="card flex h-[140px] flex-col">
         <header class="card-header">
-          <span class="chip variant-soft float-right">
+          <span class="variant-soft chip float-right">
             {!expense.category ? 'Sin Categoría' : expense.category}
           </span>
         </header>
-        <section class="px-4 line-clamp-2 flex-1 capitalize">
+        <section class="line-clamp-2 flex-1 px-4 capitalize">
           <p>{expense.name}</p>
         </section>
-        <footer class="card-footer text-xl flex justify-center items-center">
+        <footer class="card-footer flex items-center justify-center text-xl">
           <p class="m-auto">{formatAmount(expense.amount)}</p>
           <button
             class="self-end"
