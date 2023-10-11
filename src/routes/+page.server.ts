@@ -31,6 +31,7 @@ export const actions = {
 
     if (budget_amount) {
       amount = parseLocaleNumber(budget_amount)
+      if (amount > 999999999) return fail(400, { message: 'Ingresa un monto válido' })
     } else {
       amount = null
     }
@@ -64,6 +65,7 @@ export const actions = {
 
     if (amount < 1 || isNaN(amount))
       return fail(400, { message: 'Es necesario ingresar un monto al gasto' })
+    if (amount > 999999999) return fail(400, { message: 'Ingresa un monto válido' })
 
     await db.insert(expenses).values({
       name: expense_name,
