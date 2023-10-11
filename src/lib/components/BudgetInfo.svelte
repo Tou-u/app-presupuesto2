@@ -48,11 +48,14 @@
 </script>
 
 <div class="p-2">
-  <h1 class="text-3xl">{budget.name}</h1>
-  {#if budget.amount}
-    <p>Presupuesto de {formatAmount(budget.amount)}</p>
-  {/if}
-  <p>Gastado un total de {formatAmount(gastos)}</p>
+  <div class="card p-4">
+    <h1 class="text-center text-3xl font-bold">{budget.name}</h1>
+    {#if budget.amount}
+      <p>Presupuesto de {formatAmount(budget.amount)}</p>
+    {/if}
+    <p>Gastado un total de {formatAmount(gastos)}</p>
+  </div>
+
   <div class="info grid gap-2">
     {#each budget.expense as expense}
       <div class="card flex h-[140px] flex-col">
