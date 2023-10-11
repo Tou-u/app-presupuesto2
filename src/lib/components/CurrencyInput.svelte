@@ -15,4 +15,4 @@
   }
 </script>
 
-<input {name} type="text" on:input={updateValue} placeholder="Ingresa el costo" />
+<input {name} type="text" on:input={updateValue} placeholder="Ingresa el costo" maxlength="11" />
