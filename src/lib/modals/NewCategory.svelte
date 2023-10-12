@@ -1,19 +1,24 @@
 <script lang="ts">
   import { applyAction, deserialize } from '$app/forms'
   import { invalidateAll } from '$app/navigation'
-  import { getModalStore } from '@skeletonlabs/skeleton'
-  import CurrencyInput from '$lib/components/CurrencyInput.svelte'
+  import { InputChip, getModalStore } from '@skeletonlabs/skeleton'
   const modalStore = getModalStore()
 
   export let parent: any
   let message: string = ''
 
-  let budgetId = $modalStore[0].meta.budgetId
   let budgetCategories: string[] = $modalStore[0].meta.budgetCategories || []
 
   async function onFormSubmit(event: { currentTarget: HTMLFormElement }) {
     const data = new FormData(event.currentTarget)
-    data.append('budgetId', budgetId)
+
+    const categories = data.getAll('categories')
+
+    if (budgetCategories === categories) {
+      return
+    }
+
+    data.append('budgetId', $modalStore[0].meta.budgetId)
 
     const response = await fetch(event.currentTarget.action, {
       method: 'POST',
@@ -39,38 +44,18 @@
   <div class="modal-example-form {cBase}">
     <header class={cHeader}>{$modalStore[0].title}</header>
     <form
-      id="expenseform"
+      id="categoryform"
       class="modal-form {cForm}"
       method="POST"
-      action="?/newExpense"
+      action="?/newCategory"
       on:submit|preventDefault={onFormSubmit}>
-      <label class="label">
-        <span>Asigna un nombre al gasto</span>
-        <input
-          class="input"
-          type="text"
-          name="expense_name"
-          placeholder="Ingresa el nombre"
-          autocomplete="off" />
-      </label>
-      <label class="label">
-        <span>Categoría (opcional)</span>
-        <select name="category" class="input">
-          <option value="" selected>Sin categoría</option>
-          {#each budgetCategories as category}
-            <option value={category} class="capitalize">{category}</option>
-          {/each}
-        </select>
-      </label>
       <!-- svelte-ignore a11y-label-has-associated-control -->
       <label class="label">
-        <span>Ingresa el gasto</span>
-        <div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
-          <div class="input-group-shim">
-            <p>CLP $</p>
-          </div>
-          <CurrencyInput name="expense_amount" />
-        </div>
+        <span>Asigna un nombre a la categoría, luego presiona Enter</span>
+        <InputChip
+          name="categories"
+          placeholder="Ingresa el nombre"
+          bind:value={budgetCategories} />
       </label>
     </form>
     <div class="flex flex-col items-center gap-2">
@@ -80,8 +65,8 @@
       <footer class="modal-footer {parent.regionFooter}">
         <button class="btn {parent.buttonNeutral}" on:click={parent.onClose} type="button"
           >Cancelar</button>
-        <button class="btn {parent.buttonPositive}" type="submit" form="expenseform"
-          >Crear Gasto</button>
+        <button class="btn {parent.buttonPositive}" type="submit" form="categoryform"
+          >Guardar</button>
       </footer>
     </div>
   </div>

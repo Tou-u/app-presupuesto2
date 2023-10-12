@@ -9,6 +9,7 @@
 
   import NewBudget from '$lib/modals/NewBudget.svelte'
   import NewExpense from '$lib/modals/NewExpense.svelte'
+  import NewCategory from '$lib/modals/NewCategory.svelte'
 
   const modalComponentRegistry: Record<string, ModalComponent> = {
     modalNewBudget: {
@@ -17,6 +18,10 @@
     },
     modalNewExpense: {
       ref: NewExpense,
+      slot: '<p>Skeleton</p>'
+    },
+    modalNewCategory: {
+      ref: NewCategory,
       slot: '<p>Skeleton</p>'
     }
   }

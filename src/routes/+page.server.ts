@@ -5,14 +5,28 @@ import { fail } from '@sveltejs/kit'
 import { eq, desc } from 'drizzle-orm'
 import parseLocaleNumber from '$lib/utils/parseLocaleNumber'
 
-export const load = (async () => {
-  const data = await db.query.budgets.findFirst({
-    with: {
-      expense: true
-    },
-    orderBy: [desc(budgets.created_at)]
-  })
-  return { budget: data }
+export const load = (async ({ url }) => {
+  const category = url.searchParams.get('category')
+
+  if (category) {
+    const data = await db.query.budgets.findFirst({
+      with: {
+        expense: {
+          where: (expense, { eq }) => eq(expense.category, category)
+        }
+      },
+      orderBy: [desc(budgets.created_at)]
+    })
+    return { budget: data }
+  } else {
+    const data = await db.query.budgets.findFirst({
+      with: {
+        expense: true
+      },
+      orderBy: [desc(budgets.created_at)]
+    })
+    return { budget: data }
+  }
 }) satisfies PageServerLoad
 
 export const actions = {
@@ -57,6 +71,7 @@ export const actions = {
     const expense_name = formData.get('expense_name') as string
     const expense_amount = formData.get('expense_amount') as string
     const budgetId = formData.get('budgetId') as string
+    const category = formData.get('category') as string
 
     const amount = parseLocaleNumber(expense_amount)
 
@@ -70,7 +85,8 @@ export const actions = {
     await db.insert(expenses).values({
       name: expense_name,
       amount: amount,
-      budgetId: +budgetId
+      budgetId: +budgetId,
+      category: category === '' ? null : category
     })
 
     return { success: true }
@@ -79,6 +95,15 @@ export const actions = {
   deleteExpense: async ({ request }) => {
     const expenseId = await request.json()
     await db.delete(expenses).where(eq(expenses.id, expenseId))
+
+    return { success: true }
+  },
+  newCategory: async ({ request }) => {
+    const formData = await request.formData()
+    const budgetId = formData.get('budgetId') as string
+    const categories = formData.getAll('categories') as string[]
+
+    await db.update(budgets).set({ categories: categories }).where(eq(budgets.id, +budgetId))
 
     return { success: true }
   }

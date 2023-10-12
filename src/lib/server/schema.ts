@@ -1,11 +1,12 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, text, serial, integer, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, text, serial, integer, timestamp, json } from 'drizzle-orm/pg-core'
 
 export const budgets = pgTable('budgets', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   amount: integer('amount'),
-  created_at: timestamp('created_at').defaultNow().notNull()
+  created_at: timestamp('created_at').defaultNow().notNull(),
+  categories: json('categories').$type<string[]>()
 })
 
 export const expenses = pgTable('expenses', {
