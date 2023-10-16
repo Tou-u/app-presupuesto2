@@ -1,12 +1,13 @@
-import type { PageServerLoad, Actions } from './$types'
 import { db } from '$lib/server'
 import { budgets, expenses } from '$lib/server/schema'
-import { fail } from '@sveltejs/kit'
-import { eq, desc } from 'drizzle-orm'
 import { parseLocaleNumber } from '$lib/utils/scripts'
+import { error, fail } from '@sveltejs/kit'
+import { eq } from 'drizzle-orm'
+import type { Actions, PageServerLoad } from './$types'
 
-export const load = (async ({ url }) => {
+export const load = (async ({ url, params }) => {
   const category = url.searchParams.get('category')
+  const budgetId = params.id as string
 
   if (category) {
     const data = await db.query.budgets.findFirst({
@@ -15,16 +16,18 @@ export const load = (async ({ url }) => {
           where: (expense, { eq }) => eq(expense.category, category)
         }
       },
-      orderBy: [desc(budgets.created_at)]
+      where: (budget, { eq }) => eq(budget.id, +budgetId)
     })
+    if (!data) throw error(404)
     return { budget: data }
   } else {
     const data = await db.query.budgets.findFirst({
       with: {
         expense: true
       },
-      orderBy: [desc(budgets.created_at)]
+      where: (budget, { eq }) => eq(budget.id, +budgetId)
     })
+    if (!data) throw error(404)
     return { budget: data }
   }
 }) satisfies PageServerLoad
@@ -55,7 +58,7 @@ export const actions = {
       amount
     })
 
-    return { success: true }
+    return { budgetCreated: true }
   },
   delete: async ({ request }) => {
     const id = await request.json()

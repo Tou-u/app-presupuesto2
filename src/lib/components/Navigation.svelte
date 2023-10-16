@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/stores'
   import { getDrawerStore, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton'
   const drawerStore = getDrawerStore()
   const modalStore = getModalStore()
@@ -16,15 +17,19 @@
     }
     modalStore.trigger(newBudget)
   }
+
+  const validPaths = ['/', `/budget/${$page.params.id}`, '/budgets']
 </script>
 
 <nav class="list-nav p-4">
   <ul>
     <li><a href="/" on:click={drawerClose}>Página principal</a></li>
-    <li>
-      <button class="btn flex w-full justify-start" on:click={openBudgetModal}
-        ><span> Crear Presupuesto </span></button>
-    </li>
     <li><a href="/budgets" on:click={drawerClose}>Mis Presupuestos</a></li>
+    {#if validPaths.includes($page.url.pathname)}
+      <li>
+        <button class="btn flex w-full justify-start" on:click={openBudgetModal}
+          ><span> Crear Presupuesto </span></button>
+      </li>
+    {/if}
   </ul>
 </nav>
