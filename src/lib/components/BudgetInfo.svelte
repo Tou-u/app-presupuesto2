@@ -133,7 +133,8 @@
   </div>
 
   <div class="card flex items-center gap-2 overflow-hidden">
-    <button class="ml-2 p-2 font-bold underline" on:click={openCategoryModal}>Categorías</button>
+    <button class="ml-2 p-2 font-bold underline" on:click={openCategoryModal}
+      >{`Categorías >`}</button>
     <div class="flex h-max gap-1 overflow-auto">
       {#if !budget?.categories || budget.categories.length === 0}
         <p>Crea categorías para organizar tus gastos</p>

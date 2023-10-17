@@ -1,9 +1,19 @@
 <script lang="ts">
-  import type { PageData } from './$types'
+  import type { ActionData, PageData } from './$types'
   import CardInfo from '$lib/components/CardInfo.svelte'
+  import { getModalStore } from '@skeletonlabs/skeleton'
+  import { goto } from '$app/navigation'
+  const modalStore = getModalStore()
 
   export let data: PageData
+  export let form: ActionData
+
   $: ({ budgets } = data)
+
+  $: if (form?.budgetCreated) {
+    modalStore.close()
+    goto('/')
+  }
 </script>
 
 <div class="flex flex-col gap-2 p-2">

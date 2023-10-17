@@ -7,11 +7,13 @@
   }
 </script>
 
-<div class="flex items-center h-16 p-2 border-b-[1px]">
-  <strong class="flex-1 text-xl uppercase">App Presupuesto</strong>
-  <button on:click={drawerOpen} class="lg:hidden btn btn-sm">
+<div class="flex h-16 items-center border-b-[1px] p-2">
+  <div class="flex-1">
+    <a href="/"> <strong class="text-xl uppercase">App Presupuesto</strong></a>
+  </div>
+  <button on:click={drawerOpen} class="btn btn-sm lg:hidden">
     <span>
-      <svg viewBox="0 0 100 80" class="fill-token w-4 h-4">
+      <svg viewBox="0 0 100 80" class="fill-token h-4 w-4">
         <rect width="100" height="20" />
         <rect y="30" width="100" height="20" />
         <rect y="60" width="100" height="20" />

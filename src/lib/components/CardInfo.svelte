@@ -13,7 +13,7 @@
 
 <div class="center card flex h-[140px] flex-col">
   <header class="card-header">
-    <p class="variant-soft chip float-right line-clamp-1 max-w-[180px] capitalize">
+    <p class="variant-soft chip float-right line-clamp-1 max-w-[180px] capitalize transition-none">
       {formatDate(budget.created_at)}
     </p>
   </header>
