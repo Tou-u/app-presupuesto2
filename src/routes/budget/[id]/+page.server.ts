@@ -9,11 +9,18 @@ import {
   newExpense
 } from '$lib/server/service'
 
-export const load = (async ({ url, params }) => {
+let userId: string = ''
+
+export const load = (async ({ url, params, parent }) => {
   const category = url.searchParams.get('category')
   const budgetId = params.id as string
 
-  return getBudgetById(category, +budgetId)
+  const { session } = await parent()
+  if (session) {
+    userId = session?.user.id
+  }
+
+  return getBudgetById(category, +budgetId, userId)
 }) satisfies PageServerLoad
 
 export const actions = {
@@ -36,7 +43,7 @@ export const actions = {
       amount = null
     }
 
-    return newBudget(budget_name, amount)
+    return newBudget(budget_name, amount, userId)
   },
   // Creación de nuevo gasto
   newExpense: async ({ request }) => {

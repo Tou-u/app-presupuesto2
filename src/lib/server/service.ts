@@ -3,7 +3,7 @@ import { db } from '.'
 import { budgets, expenses } from './schema'
 import { fail, error } from '@sveltejs/kit'
 
-export const getLastBudget = async (category: string | null) => {
+export const getLastBudget = async (category: string | null, userId: string) => {
   try {
     if (category) {
       const data = await db.query.budgets.findFirst({
@@ -12,7 +12,8 @@ export const getLastBudget = async (category: string | null) => {
             where: (expense, { eq }) => eq(expense.category, category)
           }
         },
-        orderBy: [desc(budgets.created_at)]
+        orderBy: [desc(budgets.created_at)],
+        where: (budget, { eq }) => eq(budget.userId, userId)
       })
       return { budget: data }
     } else {
@@ -20,7 +21,8 @@ export const getLastBudget = async (category: string | null) => {
         with: {
           expense: true
         },
-        orderBy: [desc(budgets.created_at)]
+        orderBy: [desc(budgets.created_at)],
+        where: (budget, { eq }) => eq(budget.userId, userId)
       })
       return { budget: data }
     }
@@ -32,7 +34,7 @@ export const getLastBudget = async (category: string | null) => {
   }
 }
 
-export const getBudgets = async () => {
+export const getBudgets = async (userId: string) => {
   try {
     const data = await db.query.budgets.findMany({
       orderBy: [desc(budgets.created_at)],
@@ -41,7 +43,8 @@ export const getBudgets = async () => {
         created_at: true,
         name: true,
         id: true
-      }
+      },
+      where: (budget, { eq }) => eq(budget.userId, userId)
     })
     return { budgets: data }
   } catch (e) {
@@ -52,7 +55,7 @@ export const getBudgets = async () => {
   }
 }
 
-export const getBudgetById = async (category: string | null, budgetId: number) => {
+export const getBudgetById = async (category: string | null, budgetId: number, userId: string) => {
   try {
     if (category) {
       const data = await db.query.budgets.findFirst({
@@ -61,7 +64,7 @@ export const getBudgetById = async (category: string | null, budgetId: number) =
             where: (expense, { eq }) => eq(expense.category, category)
           }
         },
-        where: (budget, { eq }) => eq(budget.id, +budgetId)
+        where: (budget, { eq, and }) => and(eq(budget.id, +budgetId), eq(budget.userId, userId))
       })
       if (!data) throw error(404)
       return { budget: data }
@@ -70,7 +73,7 @@ export const getBudgetById = async (category: string | null, budgetId: number) =
         with: {
           expense: true
         },
-        where: (budget, { eq }) => eq(budget.id, +budgetId)
+        where: (budget, { eq, and }) => and(eq(budget.id, +budgetId), eq(budget.userId, userId))
       })
       if (!data) throw error(404, { message: 'Not Found' })
       return { budget: data }
@@ -83,11 +86,12 @@ export const getBudgetById = async (category: string | null, budgetId: number) =
   }
 }
 
-export const newBudget = async (name: string, amount: number | null) => {
+export const newBudget = async (name: string, amount: number | null, userId: string) => {
   try {
     await db.insert(budgets).values({
       name,
-      amount
+      amount,
+      userId
     })
     return { budgetCreated: true }
   } catch (e) {

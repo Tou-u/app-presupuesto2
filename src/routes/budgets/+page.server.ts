@@ -3,8 +3,14 @@ import { fail, type Actions } from '@sveltejs/kit'
 import { parseLocaleNumber } from '$lib/utils/scripts'
 import { getBudgets, newBudget } from '$lib/server/service'
 
-export const load: PageServerLoad = () => {
-  return getBudgets()
+let userId: string = ''
+
+export const load: PageServerLoad = async ({ parent }) => {
+  const { session } = await parent()
+  if (session) {
+    userId = session?.user.id
+  }
+  return getBudgets(userId)
 }
 
 export const actions = {
@@ -26,6 +32,6 @@ export const actions = {
     } else {
       amount = null
     }
-    return newBudget(budget_name, amount)
+    return newBudget(budget_name, amount, userId)
   }
 } satisfies Actions

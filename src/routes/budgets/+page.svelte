@@ -18,8 +18,16 @@
 
 <div class="flex flex-col gap-2 p-2">
   <header>
-    <h1 class="text-center text-2xl">Mis Presupuestos</h1>
+    {#if budgets.length === 0}
+      <div class="text-center">
+        <h1 class="text-2xl">Sin Presupuestos</h1>
+        <a href="/"><p class="p-4 underline">Comienza creando uno</p></a>
+      </div>
+    {:else}
+      <h1 class="text-center text-2xl">Mis Presupuestos</h1>
+    {/if}
   </header>
+
   <div class="info grid gap-2">
     {#each budgets as budget}
       <a href={`/budget/${budget.id}`}> <CardInfo {budget} /></a>

@@ -13,6 +13,10 @@
     modalStore.close()
   }
 
+  $: if (form?.budgetCreated) {
+    modalStore.close()
+  }
+
   const openBudgetModal = () => {
     const newBudget: ModalSettings = {
       type: 'component',
