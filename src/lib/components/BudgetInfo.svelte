@@ -3,6 +3,8 @@
   import { goto, invalidateAll } from '$app/navigation'
   import { page } from '$app/stores'
   import Trash from '$lib/icons/Trash.svelte'
+  import ArrowR from '$lib/icons/ArrowR.svelte'
+  import Settings from '$lib/icons/Settings.svelte'
   import { ProgressRadial, type ModalSettings, getModalStore } from '@skeletonlabs/skeleton'
   import { formatAmount } from '$lib/utils/scripts'
   const modalStore = getModalStore()
@@ -93,8 +95,9 @@
   }
 </script>
 
-<div class="flex flex-col gap-3 p-2">
+<div class="m-auto flex max-w-6xl flex-col gap-3 p-2">
   <div class="card variant-glass-primary p-4">
+    <button class="absolute"><Settings /></button>
     <h1 class="text-center text-3xl font-bold">{budget?.name}</h1>
     <div class="flex items-center justify-around">
       {#if budget?.amount}
@@ -132,21 +135,30 @@
     </div>
   </div>
 
-  <div class="card flex items-center gap-2 overflow-hidden">
-    <button class="ml-2 p-2 font-bold underline" on:click={openCategoryModal}
-      >{`Categorías >`}</button>
-    <div class="flex h-max gap-1 overflow-auto">
-      {#if !budget?.categories || budget.categories.length === 0}
-        <p>Crea categorías para organizar tus gastos</p>
-      {:else}
-        {#each budget.categories as category}
-          <button
-            class="variant-ghost-primary chip rounded-full capitalize"
-            on:click={() => loadFilter(category)}>
-            {category}
-          </button>
-        {/each}
-      {/if}
+  <div class="flex">
+    <div class="card flex items-center rounded-r-none">
+      <button class="btn ml-2 p-2 font-bold underline" on:click={openCategoryModal}>
+        <div class="flex items-center justify-center">
+          <p>Categorías</p>
+          <ArrowR />
+        </div>
+      </button>
+      <div />
+    </div>
+    <div class="flex-1 overflow-hidden">
+      <div class="card flex gap-1 overflow-auto rounded-l-none p-2">
+        {#if !budget?.categories || budget.categories.length === 0}
+          <p>Crea categorías para organizar tus gastos</p>
+        {:else}
+          {#each budget.categories as category}
+            <button
+              class="variant-ghost-primary chip rounded-full capitalize"
+              on:click={() => loadFilter(category)}>
+              {category}
+            </button>
+          {/each}
+        {/if}
+      </div>
     </div>
   </div>
 
@@ -171,16 +183,17 @@
           <section class="line-clamp-2 flex-1 px-4 capitalize">
             <p>{expense.name}</p>
           </section>
-          <footer class="card-footer flex items-center justify-center text-xl">
-            <p class="m-auto">{formatAmount(expense.amount)}</p>
-            <button
-              class="self-end"
-              formaction="?/deleteExpense"
-              type="button"
-              id="deleteExpense"
-              on:click={() => deleteExpense(expense.id)}>
-              <Trash />
-            </button>
+          <footer class="card-footer relative text-xl">
+            <p class="text-center">{formatAmount(expense.amount)}</p>
+            <div class="absolute bottom-2 right-2">
+              <button
+                formaction="?/deleteExpense"
+                type="button"
+                id="deleteExpense"
+                on:click={() => deleteExpense(expense.id)}>
+                <Trash />
+              </button>
+            </div>
           </footer>
         </div>
       {/each}
