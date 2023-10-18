@@ -7,11 +7,16 @@ import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { db } from '$lib/server'
 
 export const authorization: Handle = async ({ event, resolve }) => {
-  if (event.url.pathname.startsWith('/authenticated')) {
+  const protectedPath = ['/', '/budgets', `/budget/${event.params.id}`]
+
+  if (protectedPath.includes(event.url.pathname)) {
     const session = await event.locals.getSession()
-    if (!session) {
-      throw redirect(303, '/auth')
-    }
+    if (!session) throw redirect(303, '/auth')
+  }
+
+  if (event.url.pathname === '/auth') {
+    const session = await event.locals.getSession()
+    if (session) throw redirect(303, '/')
   }
 
   return resolve(event)

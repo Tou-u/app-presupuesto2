@@ -1,7 +1,7 @@
 <script lang="ts">
   import BudgetInfo from '$lib/components/BudgetInfo.svelte'
   import Add from '$lib/icons/Add.svelte'
-  import type { ActionData, PageData } from './$types'
+  import type { ActionData, PageData } from '../$types'
   import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton'
   const modalStore = getModalStore()
 
