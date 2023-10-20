@@ -1,6 +1,6 @@
 import { SvelteKitAuth } from '@auth/sveltekit'
 import GitHub from '@auth/core/providers/github'
-import { GITHUB_ID, GITHUB_SECRET } from '$env/static/private'
+import { GITHUB_ID, GITHUB_SECRET, AUTH_SECRET } from '$env/static/private'
 import { redirect, type Handle } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
@@ -31,7 +31,9 @@ export const handle: Handle = sequence(
         session.user.id = user.id
         return Promise.resolve(session)
       }
-    }
+    },
+    trustHost: true,
+    secret: AUTH_SECRET
   }),
   authorization
 )
