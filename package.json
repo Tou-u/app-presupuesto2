@@ -53,7 +53,7 @@
     "@auth/core": "0.17.0",
     "@auth/drizzle-adapter": "0.3.4",
     "@auth/sveltekit": "0.3.10",
-    "@planetscale/database": "1.11.0",
+    "@floating-ui/dom": "1.5.3",
     "drizzle-orm": "0.28.6",
     "postgres": "3.4.0"
   }

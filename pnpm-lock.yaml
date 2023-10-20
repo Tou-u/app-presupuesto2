@@ -14,12 +14,12 @@ dependencies:
   '@auth/sveltekit':
     specifier: 0.3.10
     version: 0.3.10(@sveltejs/kit@1.25.2)(svelte@4.2.1)
-  '@planetscale/database':
-    specifier: 1.11.0
-    version: 1.11.0
+  '@floating-ui/dom':
+    specifier: 1.5.3
+    version: 1.5.3
   drizzle-orm:
     specifier: 0.28.6
-    version: 0.28.6(@aws-sdk/client-rds-data@3.421.0)(@planetscale/database@1.11.0)(kysely@0.25.0)(pg@8.11.3)(postgres@3.4.0)
+    version: 0.28.6(@aws-sdk/client-rds-data@3.421.0)(kysely@0.25.0)(pg@8.11.3)(postgres@3.4.0)
   postgres:
     specifier: 3.4.0
     version: 3.4.0
@@ -2037,6 +2037,23 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
+  /@floating-ui/core@1.5.0:
+    resolution: {integrity: sha512-kK1h4m36DQ0UHGj5Ah4db7R0rHemTqqO0QLvUqi1/mUUp3LuAWbWxdxSIf/XsnH9VS6rRVPLJCncjRzUvyCLXg==}
+    dependencies:
+      '@floating-ui/utils': 0.1.6
+    dev: false
+
+  /@floating-ui/dom@1.5.3:
+    resolution: {integrity: sha512-ClAbQnEqJAKCJOEbbLo5IUlZHkNszqhuxS4fHAVxRPXPya6Ysf2G8KypnYcOTpx6I8xcgF9bbHb6g/2KpbV8qA==}
+    dependencies:
+      '@floating-ui/core': 1.5.0
+      '@floating-ui/utils': 0.1.6
+    dev: false
+
+  /@floating-ui/utils@0.1.6:
+    resolution: {integrity: sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==}
+    dev: false
+
   /@graphql-tools/executor@0.0.18(graphql@16.8.1):
     resolution: {integrity: sha512-xZC0C+/npXoSHBB5bsJdwxDLgtl1Gu4fL9J2TPQmXoZC3L2N506KJoppf9LgWdHU/xK04luJrhP6WjhfkIN0pQ==}
     peerDependencies:
@@ -2228,11 +2245,6 @@ packages:
       tslib: 2.6.2
       webcrypto-core: 1.7.7
     dev: true
-
-  /@planetscale/database@1.11.0:
-    resolution: {integrity: sha512-aWbU+D/IRHoDE9975y+Q4c+EwwAWxCPwFId+N1AhQVFXzbeJMkj6KN2iQtoi03elcLMRdfT+V3i9Z4WRw+/oIA==}
-    engines: {node: '>=16'}
-    dev: false
 
   /@polka/url@1.0.0-next.23:
     resolution: {integrity: sha512-C16M+IYz0rgRhWZdCmK+h58JMv8vijAA61gmz2rspCSwKwzBebpdcsiUmwrtJRdphuY30i6BSLEOP8ppbNLyLg==}
@@ -4098,7 +4110,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.28.6(@aws-sdk/client-rds-data@3.421.0)(@planetscale/database@1.11.0)(kysely@0.25.0)(pg@8.11.3)(postgres@3.4.0):
+  /drizzle-orm@0.28.6(@aws-sdk/client-rds-data@3.421.0)(kysely@0.25.0)(pg@8.11.3)(postgres@3.4.0):
     resolution: {integrity: sha512-yBe+F9htrlYER7uXgDJUQsTHFoIrI5yMm5A0bg0GiZ/kY5jNXTWoEy4KQtg35cE27sw1VbgzoMWHAgCckUUUww==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -4161,7 +4173,6 @@ packages:
         optional: true
     dependencies:
       '@aws-sdk/client-rds-data': 3.421.0
-      '@planetscale/database': 1.11.0
       kysely: 0.25.0
       pg: 8.11.3
       postgres: 3.4.0
