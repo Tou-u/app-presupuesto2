@@ -2,7 +2,9 @@ import type { PageServerLoad, Actions } from './$types'
 import { fail } from '@sveltejs/kit'
 import { parseLocaleNumber } from '$lib/utils/scripts'
 import {
+  deleteBudget,
   deleteExpense,
+  editBudget,
   getLastBudget,
   newBudget,
   newCategory,
@@ -74,5 +76,31 @@ export const actions = {
     const categories = formData.getAll('categories') as string[]
 
     return newCategory(categories, +budgetId)
+  },
+  // Modificación de presupuesto
+  editBudget: async ({ request }) => {
+    const formData = await request.formData()
+    const budgetId = formData.get('budgetId') as string
+    const budget_name = formData.get('budget_name') as string
+    const budget_amount = formData.get('budget_amount') as string
+
+    if (budget_name.length < 2) {
+      return fail(400, { message: 'El nombre debe tener un mínimo de 2 caracteres' })
+    }
+
+    let amount: number | null
+    if (budget_amount) {
+      amount = parseLocaleNumber(budget_amount)
+      if (amount > 999999999) return fail(400, { message: 'Ingresa un monto válido' })
+    } else {
+      amount = null
+    }
+
+    return editBudget(budget_name, amount, userId, +budgetId)
+  },
+  // Eliminación de presupuesto
+  deleteBudget: async ({ request }) => {
+    const budgetId = await request.json()
+    return deleteBudget(budgetId, userId)
   }
 } satisfies Actions

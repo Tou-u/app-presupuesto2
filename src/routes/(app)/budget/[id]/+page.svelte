@@ -9,11 +9,11 @@
   export let form: ActionData
   $: ({ budget } = data)
 
-  $: if (form?.success) {
+  $: if (form?.success || form?.budgetUpdated) {
     modalStore.close()
   }
 
-  $: if (form?.budgetCreated) {
+  $: if (form?.budgetCreated || form?.budgetDelete) {
     modalStore.close()
     goto('/')
   }

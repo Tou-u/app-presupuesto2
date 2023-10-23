@@ -16,7 +16,7 @@
   }
 </script>
 
-<div class="flex flex-col gap-2 p-2">
+<div class="m-auto flex max-w-6xl flex-col gap-2 p-2">
   <header>
     {#if budgets.length === 0}
       <div class="text-center">

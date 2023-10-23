@@ -70,6 +70,20 @@
     modalStore.trigger(newCategory)
   }
 
+  $: openBudgetSettings = () => {
+    const budgetSettings: ModalSettings = {
+      type: 'component',
+      component: 'modalBudgetSettings',
+      title: `Propiedades de ${budget?.name}`,
+      meta: {
+        budgetId: budget?.id,
+        budgetName: budget?.name,
+        budgetAmount: budget?.amount
+      }
+    }
+    modalStore.trigger(budgetSettings)
+  }
+
   const deleteExpense = async (id: number | undefined) => {
     const target = document.getElementById('deleteExpense') as HTMLInputElement
 
@@ -97,7 +111,7 @@
 
 <div class="m-auto flex max-w-6xl flex-col gap-3 p-2">
   <div class="card variant-glass-primary p-4">
-    <button class="absolute"><Settings /></button>
+    <button class="absolute" on:click={openBudgetSettings}><Settings /></button>
     <h1 class="text-center text-3xl font-bold">{budget?.name}</h1>
     <div class="flex items-center justify-around">
       {#if budget?.amount}

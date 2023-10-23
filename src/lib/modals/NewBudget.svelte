@@ -53,7 +53,7 @@
           <div class="input-group-shim">
             <p>CLP $</p>
           </div>
-          <CurrencyInput name="budget_amount" />
+          <CurrencyInput name="budget_amount" amount={null} />
         </div>
       {/if}
 

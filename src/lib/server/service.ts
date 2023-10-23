@@ -1,4 +1,4 @@
-import { desc, eq } from 'drizzle-orm'
+import { and, desc, eq } from 'drizzle-orm'
 import { db } from '.'
 import { budgets, expenses } from './schema'
 import { fail, error } from '@sveltejs/kit'
@@ -94,6 +94,36 @@ export const newBudget = async (name: string, amount: number | null, userId: str
       userId
     })
     return { budgetCreated: true }
+  } catch (e) {
+    return fail(400, { message: 'No se pudo completar la solicitud, intenta más tarde.' })
+  }
+}
+
+export const editBudget = async (
+  name: string,
+  amount: number | null,
+  userId: string,
+  budgetId: number
+) => {
+  try {
+    await db
+      .update(budgets)
+      .set({
+        name,
+        amount
+      })
+      .where(and(eq(budgets.id, budgetId), eq(budgets.userId, userId)))
+
+    return { budgetUpdated: true }
+  } catch (e) {
+    return fail(400, { message: 'No se pudo completar la solicitud, intenta más tarde.' })
+  }
+}
+
+export const deleteBudget = async (budgetId: number, userId: string) => {
+  try {
+    await db.delete(budgets).where(and(eq(budgets.id, budgetId), eq(budgets.userId, userId)))
+    return { budgetDeleted: true }
   } catch (e) {
     return fail(400, { message: 'No se pudo completar la solicitud, intenta más tarde.' })
   }

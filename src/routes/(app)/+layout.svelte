@@ -14,6 +14,7 @@
   import NewBudget from '$lib/modals/NewBudget.svelte'
   import NewExpense from '$lib/modals/NewExpense.svelte'
   import NewCategory from '$lib/modals/NewCategory.svelte'
+  import BudgetSettings from '$lib/modals/BudgetSettings.svelte'
 
   const modalComponentRegistry: Record<string, ModalComponent> = {
     modalNewBudget: {
@@ -26,6 +27,10 @@
     },
     modalNewCategory: {
       ref: NewCategory,
+      slot: '<p>Skeleton</p>'
+    },
+    modalBudgetSettings: {
+      ref: BudgetSettings,
       slot: '<p>Skeleton</p>'
     }
   }
@@ -44,6 +49,6 @@
   </svelte:fragment>
   <slot />
   <svelte:fragment slot="footer">
-    <p class="p-2 text-center">Dev by Tou ❤️</p>
+    <p class="p-2 text-center">Dev by RR ❤️</p>
   </svelte:fragment>
 </AppShell>
