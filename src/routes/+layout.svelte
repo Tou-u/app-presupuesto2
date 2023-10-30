@@ -1,5 +1,5 @@
 <script lang="ts">
-  import '../app.postcss'
+  import '../base.postcss'
 </script>
 
 <svelte:head>
