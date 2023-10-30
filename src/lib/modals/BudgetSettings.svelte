@@ -7,6 +7,10 @@
 
   export let parent: any
   let message: string = ''
+  let loading = {
+    save: false,
+    delete: false
+  }
 
   const formData = {
     id: $modalStore[0].meta.budgetId,
@@ -17,6 +21,7 @@
   async function onFormSubmit(event: { currentTarget: HTMLFormElement }) {
     const data = new FormData(event.currentTarget)
     data.append('budgetId', formData.id)
+    loading.save = true
 
     const response = await fetch(event.currentTarget.action, {
       method: 'POST',
@@ -35,6 +40,7 @@
 
   const deleteBudget = async (id: number | undefined, event: Event) => {
     const target = event.target as HTMLInputElement
+    loading.delete = true
     const response = await fetch(target.formAction, {
       method: 'POST',
       body: JSON.stringify(id)
@@ -91,10 +97,16 @@
         <strong>{message}</strong>
       {/if}
       <footer class="modal-footer {parent.regionFooter}">
-        <button class="btn {parent.buttonNeutral}" on:click={parent.onClose} type="button"
-          >Cancelar</button>
-        <button class="btn {parent.buttonPositive}" type="submit" form="form"
-          >Actualizar Presupuesto</button>
+        {#if loading.save}
+          <p>Guardando los cambios...</p>
+        {:else if loading.delete}
+          <p>Eliminando el presupuesto...</p>
+        {:else}
+          <button class="btn {parent.buttonNeutral}" on:click={parent.onClose} type="button"
+            >Cancelar</button>
+          <button class="btn {parent.buttonPositive}" type="submit" form="form"
+            >Actualizar Presupuesto</button>
+        {/if}
       </footer>
     </div>
   </div>

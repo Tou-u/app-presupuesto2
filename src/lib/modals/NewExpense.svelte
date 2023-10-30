@@ -7,7 +7,7 @@
 
   export let parent: any
   let message: string = ''
-
+  let loading: boolean = false
   let budgetId = $modalStore[0].meta.budgetId
   let budgetCategories: string[] = $modalStore[0].meta.budgetCategories || []
 
@@ -15,6 +15,7 @@
     const data = new FormData(event.currentTarget)
     data.append('budgetId', budgetId)
 
+    loading = true
     const response = await fetch(event.currentTarget.action, {
       method: 'POST',
       body: data
@@ -78,10 +79,14 @@
         <strong>{message}</strong>
       {/if}
       <footer class="modal-footer {parent.regionFooter}">
-        <button class="btn {parent.buttonNeutral}" on:click={parent.onClose} type="button"
-          >Cancelar</button>
-        <button class="btn {parent.buttonPositive}" type="submit" form="expenseform"
-          >Crear Gasto</button>
+        {#if loading}
+          <p>Agregando gasto...</p>
+        {:else}
+          <button class="btn {parent.buttonNeutral}" on:click={parent.onClose} type="button"
+            >Cancelar</button>
+          <button class="btn {parent.buttonPositive}" type="submit" form="expenseform"
+            >Crear Gasto</button>
+        {/if}
       </footer>
     </div>
   </div>
