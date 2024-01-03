@@ -1,8 +1,8 @@
 import type { SSTConfig } from 'sst'
-import { SvelteKitSite } from 'sst/constructs'
+import { Cron, SvelteKitSite } from 'sst/constructs'
 
 export default {
-  config(_input) {
+  config() {
     return {
       name: 'app-presupuesto',
       region: 'us-east-1'
@@ -13,6 +13,14 @@ export default {
       const site = new SvelteKitSite(stack, 'site')
       stack.addOutputs({
         url: site.url
+      })
+      new Cron(stack, 'cron', {
+        schedule: 'rate(1 day)',
+        job: {
+          function: {
+            handler: 'src/functions/health.handler'
+          }
+        }
       })
     })
   }
