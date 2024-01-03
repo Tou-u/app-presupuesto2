@@ -18,7 +18,7 @@ export default {
         schedule: 'rate(1 day)',
         job: {
           function: {
-            handler: 'src/routes/api/health/server.GET'
+            handler: 'src/functions/health.handler'
           }
         }
       })
