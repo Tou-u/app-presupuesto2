@@ -10,7 +10,24 @@ CREATE TABLE IF NOT EXISTS "account" (
 	"scope" text,
 	"id_token" text,
 	"session_state" text,
-	CONSTRAINT account_provider_providerAccountId PRIMARY KEY("provider","providerAccountId")
+	CONSTRAINT "account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "budgets" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"amount" integer,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"categories" json,
+	"userId" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "expenses" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"amount" integer NOT NULL,
+	"category" text,
+	"budget_id" integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
@@ -31,11 +48,23 @@ CREATE TABLE IF NOT EXISTS "verificationToken" (
 	"identifier" text NOT NULL,
 	"token" text NOT NULL,
 	"expires" timestamp NOT NULL,
-	CONSTRAINT verificationToken_identifier_token PRIMARY KEY("identifier","token")
+	CONSTRAINT "verificationToken_identifier_token_pk" PRIMARY KEY("identifier","token")
 );
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "account" ADD CONSTRAINT "account_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "budgets" ADD CONSTRAINT "budgets_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "expenses" ADD CONSTRAINT "expenses_budget_id_budgets_id_fk" FOREIGN KEY ("budget_id") REFERENCES "budgets"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

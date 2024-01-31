@@ -1,1 +1,0 @@
-ALTER TABLE "budgets" ADD COLUMN "created_at" date DEFAULT now();
