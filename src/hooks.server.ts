@@ -1,15 +1,14 @@
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
-import { SvelteKitAuth } from '@auth/sveltekit'
-import GitHub from '@auth/core/providers/github'
-import { GITHUB_ID, GITHUB_SECRET, AUTH_SECRET } from '$env/static/private'
-import { redirect, type Handle } from '@sveltejs/kit'
+import { redirect, type Handle, type RequestEvent, type MaybePromise } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
-import { db } from '$lib/server'
-import type { Adapter } from '@auth/core/adapters'
-import { accounts, users } from '$lib/server/schema'
-import { eq, and } from 'drizzle-orm';
+import { handle as authenticationHandle } from './auth'
 
-export const authorization: Handle = async ({ event, resolve }) => {
+async function authorizationHandle({
+  event,
+  resolve
+}: {
+  event: RequestEvent
+  resolve: (event: RequestEvent) => MaybePromise<Response>
+}) {
   const protectedPath = ['/', '/budgets', `/budget/${event.params.id}`]
 
   if (protectedPath.includes(event.url.pathname)) {
@@ -25,21 +24,4 @@ export const authorization: Handle = async ({ event, resolve }) => {
   return resolve(event)
 }
 
-
-
-export const handle: Handle = sequence(
-  SvelteKitAuth({
-    adapter: DrizzleAdapter(db),
-    providers: [GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET, allowDangerousEmailAccountLinking: true })],
-    callbacks: {
-      async session({ session, user }) {
-        session.user.id = user.id
-        return Promise.resolve(session)
-      }
-    },
-    trustHost: true,
-    secret: AUTH_SECRET,
-    
-  }),
-  authorization
-)
+export const handle: Handle = sequence(authenticationHandle, authorizationHandle)
