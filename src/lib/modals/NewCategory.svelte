@@ -55,6 +55,7 @@
         <span>Asigna un nombre a la categoría, luego presiona Enter</span>
         <InputChip
           name="categories"
+          padding="p-4"
           placeholder="Ingresa el nombre"
           bind:value={budgetCategories} />
       </label>

@@ -19,7 +19,7 @@
 </script>
 
 <div class="flex h-16 items-center border-b-[1px] p-2">
-  <div class="flex-1">
+  <div class="mx-auto max-w-6xl flex-1">
     <a href="/"> <strong class="text-xl uppercase">App Presupuesto</strong></a>
   </div>
   {#if $page.data.session}
